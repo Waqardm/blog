@@ -13,35 +13,19 @@
 
         <div class="row">
           <div class="col-md-8">
-              <div class="post">
-                  <h3>Post Title</h3>
-                  <p>asjakjsndkasjnkajsnkajsd kjansdkjnasdkjansdkjnasdkjnasdkjn...</p>
-                  <a href="#" class="btn btn-primary">Read More</a>
-              </div>
+
+              @foreach($posts as $post)
+
+                <div class="post">
+                    <h3>{{ $post->title }}</h3>
+                    <p>{{ substr($post->body, 0, 300) }}{{ strlen($post->body) > 300 ? "...": "" }}</p>
+                    <a href="" class="btn btn-primary">Read More</a>
+                </div>
+                
+                <hr>
               
-              <hr>
+              @endforeach
 
-              <div class="post">
-                  <h3>Post Title</h3>
-                  <p>asjakjsndkasjnkajsnkajsd kjansdkjnasdkjansdkjnasdkjnasdkjn...</p>
-                  <a href="#" class="btn btn-primary">Read More</a>
-              </div>
-
-              <hr>
-
-              <div class="post">
-                  <h3>Post Title</h3>
-                  <p>asjakjsndkasjnkajsnkajsd kjansdkjnasdkjansdkjnasdkjnasdkjn...</p>
-                  <a href="#" class="btn btn-primary">Read More</a>
-              </div>
-
-              <hr>
-
-              <div class="post">
-                  <h3>Post Title</h3>
-                  <p>asjakjsndkasjnkajsnkajsd kjansdkjnasdkjansdkjnasdkjnasdkjn...</p>
-                  <a href="#" class="btn btn-primary">Read More</a>
-              </div>
           </div>
 
           <div class="col-md-3 col-md-offset-1">
