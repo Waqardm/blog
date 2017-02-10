@@ -15,7 +15,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        // create variable and store all blog all posts in it from db
+        $posts = Post::orderBy('id', 'desc')->paginate(5);
+        //return a view and pass in the above variable
+        return view('posts.index')->withPosts($posts);
+
     }
 
     /**
@@ -37,7 +41,6 @@ class PostController extends Controller
     public function store(Request $request)
     {
         // validate the data
-
         $this->validate($request, array(
                 'title' => 'required|max:255',
                 'body' => 'required'
@@ -78,7 +81,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        //find the post in db and save as variable
+        $post = Post::find($id);
+        //return view and pass in the var we previously created
+        return view('posts.edit')->withPost($post);
     }
 
     /**
@@ -90,7 +96,24 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Validate the data
+        $this->validate($request, array(
+                'title' => 'required|max:255',
+                'body' => 'required'
+            ));
+
+        // Save the data to the db
+        $post = Post::find($id);
+
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+
+        $post->save();
+        // Set flash data with success message
+        Session::flash('success', 'This post was successfully saved!');
+
+        // Redirect with flash data to posts.show
+        return redirect()->route('posts.show', $post->id);
     }
 
     /**
@@ -101,6 +124,11 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+
+        $post->delete();
+
+        Session::flash('success', 'The post was successfully deleted.');
+        return redirect()->route('posts.index');
     }
 }
