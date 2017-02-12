@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
-use Session;
+use App\Helpers\slugHelper;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class PostController extends Controller
 {
@@ -41,10 +43,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        
+        
         // validate the data
         $this->validate($request, array(
                 'title' => 'required|max:255',
-                'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
+                'slug' => 'max:255',
                 'body' => 'required'
             ));
 
@@ -52,7 +56,7 @@ class PostController extends Controller
         $post = new Post;
 
         $post->title = $request->title;
-        $post->slug = $request->slug;
+        $post->slug =  $request->slug ? $request->slug : slugHelper::createSlug($request->title);
         $post->body = $request->body;
 
         $post->save();
@@ -102,15 +106,14 @@ class PostController extends Controller
         // Validate the data
         $this->validate($request, array(
                 'title' => 'required|max:255',
-                'slug' => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
+                'slug' => 'max:255',
                 'body' => 'required'
             ));
 
         // Save the data to the db
         $post = Post::find($id);
 
-        $post->title = $request->input('title');
-        $post->title = $request->input('slug');
+        $post->title = $request->slug;
         $post->body = $request->input('body');
 
         $post->save();
