@@ -10,5 +10,3 @@ class slugHelper{
 		return(str_slug($input, '-'));
 	}
 }
-
-
