@@ -1,37 +1,47 @@
 <?php
 
 namespace App\Helpers;
+use App\Post;
 
 /**
 * Slugs Class 
 */
 class slugHelper{
-	public static function createSlug($input){
+	
+	// check if exists
+	public function checkSlugExists(){
+		$name = 'checkSlugExists';
+		$slug = Post::find('slug');
+		return $slug;
 		
-		//return (str_slug($input, '-'));	
+		$found = true;
+		$counter = 1;
 
-		$i = 1;
-		$slug = (str_slug("$input . $i++", '-'));
+		//if exists run while loop
+		while($checkSlugExists){
+			$slug = (str_slug($input . $counter++,  '-'));
+			$found = false;
+		 }
+	}
 
-			while (isset($slug)){
-		 	 return $slug;
-		}
+	public static function createSlug($input){
+		return(str_slug($input,'-'));
 	}
 }
 
+
+// // check if exists
+// public function checkSlugExists(){
+// 	$name = 'checkSlugExists';
+// 	$slug = Post::find('slug');
+//     return $slug;
+//     $found = true;
+//     $counter = 1;
+//  }
+
+// //if exists run while loop
+// while($found){
+// 	$slug = (str_slug($input . $counter++  '-'));
+// 	$found = false;
+// }
 		
-
-
-
-/*class slugHelper{
-	public static function createSlug($input){
-		$i = 1;
-
-		if ($input == ""){
-		return(str_slug($input, '-'));
-		} else {
-			return(str_slug($input . '-' .$i++));
-		}
-	}
-}*/
-
