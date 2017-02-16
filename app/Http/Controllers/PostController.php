@@ -56,7 +56,10 @@ class PostController extends Controller
         $post = new Post;
 
         $post->title = $request->title;
-        $post->slug =  $request->slug ? $request->slug : slugHelper::createSlug($request->title);
+        //$post->slug =  $request->slug ? $request->slug : slugHelper::createSlug($request->title);
+        //$post->slug = SlugHelper::checkSlugExists($request->slug);
+        $slug = $request->slug ? $request->slug : SlugHelper::createSlug($request->title);
+        $post->slug = SlugHelper::checkSlugExists($slug);
         $post->body = $request->body;
 
         $post->save();
