@@ -11,26 +11,33 @@ class slugHelper{
 		return(str_slug($input,'-'));
 	}
 
+	public static function checkSlugExists($slug){
+		//check it if exists
+		$exist = Post::where('slug', $slug)->first();
 
-	public static function checkSlugExists($slug) {
-	   $exist = Post::where('slug', $slug)->first();
+		// Assign slug if doesn't exist
 
-	   if(!$exist){  
-	       return $slug;
-	   }
+		if(!$exist) {
+			return $slug;
+		}
 
-	   $found = true;
-	   $counter = 1;
-	   while($found){	
-	       $checkSlug = $slug.'-'.$counter; //not modifying but checking slug for existence
-	       $exist = Post::where('slug',$checkSlug)->first();
-	       
-	       if (!$exist){
-	       	$found = false;
-	       }
+		$found = true;
+		$counter = 1;
 
-	       $counter++;
-	   }
+		while ($found){
+			//check slug variable 
+			$checkSlug = $slug . "-" . $counter;
+
+			//check slug exists
+			$exist = Post::where('slug', $checkSlug)->first();
+
+			//if exists
+			if (!$exist) {
+				$found = false;
+			}
+
+			$counter++;
+		}
 		return $checkSlug;
 	}
 }
