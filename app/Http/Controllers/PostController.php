@@ -8,6 +8,7 @@ use App\Helpers\slugHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 
+
 class PostController extends Controller
 {
     /**
