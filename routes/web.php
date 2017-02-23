@@ -9,16 +9,11 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 | -- Shouldn't have functions in routes file --
-*/
 
-//Authentication Routes
-Route::get('auth/login', 'Auth\LoginController@getLogin');
-Route::post('auth/login', 'Auth\LoginController@postLogin');
-Route::get('auth/logout', 'Auth\LoginController@getLogout');
+//Authentication Routes*/
 
-//Registration Routes
-Route::get('auth/register', 'Auth\RegisterController@getRegister');
-Route::post('auth/register', 'Auth\RegisterController@postRegister');
+// Authentication Routes...
+Auth::routes();
 
 
 Route::get('blog/{slug}', ['as' => 'blog.single', 'uses' => 'BlogController@getSingle'])->where('slug', '[\w\d\-\_]+');
