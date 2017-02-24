@@ -10,10 +10,15 @@
 | contains the "web" middleware group. Now create something great!
 | -- Shouldn't have functions in routes file --
 
-//Authentication Routes*/
+*/
 
 // Authentication Routes...
 Auth::routes();
+Route::get('logout', [ 'uses' => 'Auth\LoginController@logout', 'as' => 'logout' ]);
+
+// Categories
+Route::resource('categories', 'CategoryController', ['except' => ['create']]);
+
 
 
 Route::get('blog/{slug}', ['as' => 'blog.single', 'uses' => 'BlogController@getSingle'])->where('slug', '[\w\d\-\_]+');
@@ -22,3 +27,5 @@ Route::get('contact', 'PagesController@getContact');
 Route::get('about', 'PagesController@getAbout');
 Route::get('/', 'PagesController@getIndex');
 Route::resource('posts', 'PostController');
+
+Route::get('/home', 'HomeController@index');

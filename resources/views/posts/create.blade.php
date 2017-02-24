@@ -16,6 +16,17 @@
 			    {{ Form::label('slug', 'Slug:', array('class' => 'form-spacing-top')) }}
 			    {{ Form::text('slug', null, array('class' => 'form-control')) }}
 
+			    {{ Form::label('category_id', 'Category:') }}
+			    <select name="category_id" id="" class="form-control">
+
+			    	@foreach($categories as $category)
+
+			    		<option value=" {{$category->id}} "> {{ $category->name }} </option>
+					
+					@endforeach
+
+			    </select>
+
 			    {{ Form::label('body', 'Post Body:', array('style' => 'margin-top:20px;')) }}
 			    {{ Form::textarea('body', null, array('class' => 'form-control')) }}
 

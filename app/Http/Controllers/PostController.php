@@ -7,10 +7,16 @@ use App\Post;
 use App\Helpers\slugHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
+use App\Category;
 
 
 class PostController extends Controller
 {
+    public function __construct() 
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -32,8 +38,11 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('posts.create'); 
+    {   
+        //pulling categories for dropdown
+        $categories = Category::all();
+
+        return view('posts.create')->withCategories($categories);
     }
 
     /**
@@ -50,15 +59,16 @@ class PostController extends Controller
         $this->validate($request, array(
                 'title' => 'required|max:255',
                 'slug' => 'max:255',
+                'category_id' => 'required|integer',
                 'body' => 'required'
+
             ));
 
         // store in db
         $post = new Post;
 
         $post->title = $request->title;
-        //$post->slug =  $request->slug ? $request->slug : slugHelper::createSlug($request->title);
-        //$post->slug = SlugHelper::checkSlugExists($request->slug);
+        $post->category_id = $request->category_id;
         $slug = $request->slug ? $request->slug : slugHelper::createSlug($request->title);
         $post->slug = SlugHelper::checkSlugExists($slug);
         $post->body = $request->body;
@@ -94,8 +104,18 @@ class PostController extends Controller
     {
         //find the post in db and save as variable
         $post = Post::find($id);
+
+        //pull categories
+        $categories = Category::all();
+        $cats = array();
+
+        foreach ($categories as $category)
+        {
+            $cats[$category->id] = $category->name;
+        }
+
         //return view and pass in the var we previously created
-        return view('posts.edit')->withPost($post);
+        return view('posts.edit')->withPost($post)->withCategories($cats);
     }
 
     /**
@@ -111,6 +131,7 @@ class PostController extends Controller
         $this->validate($request, array(
                 'title' => 'required|max:255',
                 'slug' => 'max:255',
+                'category_id' => 'required|integer',
                 'body' => 'required'
             ));
 
@@ -118,6 +139,8 @@ class PostController extends Controller
         $post = Post::find($id);
 
         $post->title = $request->slug;
+        $post->category_id = $request->category_id;
+
         $post->body = $request->input('body');
 
         $post->save();
