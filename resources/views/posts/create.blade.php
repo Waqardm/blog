@@ -2,6 +2,12 @@
 
 @section('title', 'Create New Post')
 
+@section('stylesheets')
+	
+	{!! Html::style('css/select2.min.css') !!}
+
+@endsection
+
 @section('content')
 
 	<div class="row">
@@ -17,11 +23,22 @@
 			    {{ Form::text('slug', null, array('class' => 'form-control')) }}
 
 			    {{ Form::label('category_id', 'Category:') }}
-			    <select name="category_id" id="" class="form-control">
+			    <select name="category_id" class="form-control">
 
 			    	@foreach($categories as $category)
 
-			    		<option value=" {{$category->id}} "> {{ $category->name }} </option>
+			    		<option value=" {{ $category->id }} "> {{ $category->name }} </option>
+					
+					@endforeach
+
+			    </select>
+
+			    {{ Form::label('tags', 'Tags:') }}
+			    <select name="tags[]" class="form-control select2-multi" multiple="multiple">
+
+			    	@foreach($tags as $tag)
+
+			    		<option value=" {{ $tag->id }} "> {{ $tag->name }} </option>
 					
 					@endforeach
 
@@ -36,3 +53,17 @@
 	</div>
 
 @endsection
+
+@section('scripts')
+	
+	{!! Html::script('js/select2.min.js') !!}
+
+	<script type="text/javascript">
+	  
+	  $('.select2-multi').select2();
+
+	</script>
+
+@endsection
+
+

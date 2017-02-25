@@ -19,6 +19,9 @@ Route::get('logout', [ 'uses' => 'Auth\LoginController@logout', 'as' => 'logout'
 // Categories
 Route::resource('categories', 'CategoryController', ['except' => ['create']]);
 
+// Tags
+Route::resource('tags', 'TagController', ['except' => ['create']]);
+
 
 
 Route::get('blog/{slug}', ['as' => 'blog.single', 'uses' => 'BlogController@getSingle'])->where('slug', '[\w\d\-\_]+');
