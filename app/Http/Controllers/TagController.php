@@ -57,7 +57,8 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        //
+        $tag = Tag::find($id);
+        return view('tags.show')->withTag($tag);
     }
 
     /**
@@ -68,7 +69,7 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        $tagsForThisPost = json_encode($post->tags->pluck('id'));
+       //
     }
 
     /**

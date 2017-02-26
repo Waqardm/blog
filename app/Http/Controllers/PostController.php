@@ -9,6 +9,7 @@ use App\Helpers\slugHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use App\Category;
+use Illuminate\Support\Facades\DB;
 
 
 class PostController extends Controller
@@ -155,7 +156,19 @@ class PostController extends Controller
         $post->title = $request->slug;
         $post->category_id = $request->category_id;
 
+        if (isset($request->tags))
+        {
+            //now set to 'true' so it overwrites existing data (can also be left blank)
+            $post->tags()->sync($request->tags, true);
+        } else {
+
+            $post->tags()->sync(array());
+        }
+
+        
+        
         $post->body = $request->input('body');
+
 
         $post->save();
 
