@@ -165,11 +165,7 @@ class PostController extends Controller
             $post->tags()->sync(array());
         }
 
-        
-        
         $post->body = $request->input('body');
-
-
         $post->save();
 
         // Set flash data with success message
@@ -188,7 +184,8 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
-
+        $post->tags()->detach();
+        
         $post->delete();
 
         Session::flash('success', 'The post was successfully deleted.');
