@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Session;
 use App\Category;
 use Illuminate\Support\Facades\DB;
 
-
 class PostController extends Controller
 {
     public function __construct() 
