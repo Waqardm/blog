@@ -6,6 +6,16 @@
 
 {!! Html::style('css/select2.min.css') !!}
 
+<script src="//cloud.tinymce.com/stable/tinymce.min.js"></script>
+
+<script>
+		tinymce.init({
+			selector: 'textarea',
+			plugins: 'link code',
+			menubar: 'false'
+		});
+</script>
+
 @endsection
 
 @section('content')
@@ -29,13 +39,13 @@
 			{{ Form::textarea('body', null, ['class' => 'form-control']) }}
 		</div>
 
-		<div class="col-md-4">	
+		<div class="col-md-4">
 			<div class="well">
 				<dl class="dl-horizontal">
 					<dt>Created At:</dt>
 					<dd>{{ date('M j, Y h:i a', strtotime($post->created_at)) }}</dd>
 				</dl>
-				
+
 				<dl class="dl-horizontal">
 					<dt>Last Updated:</dt>
 					<dd>{{ date('M j, Y h:i a', strtotime($post->updated_at)) }}</dd>
@@ -57,7 +67,7 @@
 @endsection
 
 @section('scripts')
-	
+
 	{!! Html::script('js/select2.min.js') !!}
 
 	<script type="text/javascript">

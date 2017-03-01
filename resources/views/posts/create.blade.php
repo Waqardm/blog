@@ -3,8 +3,17 @@
 @section('title', 'Create New Post')
 
 @section('stylesheets')
-	
+
 	{!! Html::style('css/select2.min.css') !!}
+	<script src="//cloud.tinymce.com/stable/tinymce.min.js"></script>
+
+	<script>
+			tinymce.init({
+				selector: 'textarea',
+				plugins: 'link code',
+				menubar: 'false'
+			});
+	</script>
 
 @endsection
 
@@ -28,7 +37,7 @@
 			    	@foreach($categories as $category)
 
 			    		<option value=" {{ $category->id }} "> {{ $category->name }} </option>
-					
+
 					@endforeach
 
 			    </select>
@@ -39,7 +48,7 @@
 			    	@foreach($tags as $tag)
 
 			    		<option value=" {{ $tag->id }} "> {{ $tag->name }} </option>
-					
+
 					@endforeach
 
 			    </select>
@@ -55,15 +64,13 @@
 @endsection
 
 @section('scripts')
-	
+
 	{!! Html::script('js/select2.min.js') !!}
 
 	<script type="text/javascript">
-	  
+
 	  $('.select2-multi').select2();
 
 	</script>
 
 @endsection
-
-
