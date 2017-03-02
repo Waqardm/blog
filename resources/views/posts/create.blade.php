@@ -24,7 +24,7 @@
 			<h1>Create New Post</h1>
 			<hr>
 
-			{!! Form::open(['route' => 'posts.store']) !!}
+			{!! Form::open(['route' => 'posts.store', 'files' => true]) !!}
 			    {{ Form::label('title', 'Title:') }}
 			    {{ Form::text('title', null, array('class' => 'form-control')) }}
 
@@ -35,23 +35,21 @@
 			    <select name="category_id" class="form-control">
 
 			    	@foreach($categories as $category)
-
 			    		<option value=" {{ $category->id }} "> {{ $category->name }} </option>
-
-					@endforeach
+						@endforeach
 
 			    </select>
 
 			    {{ Form::label('tags', 'Tags:') }}
 			    <select name="tags[]" class="form-control select2-multi" multiple="multiple">
-
 			    	@foreach($tags as $tag)
-
 			    		<option value=" {{ $tag->id }} "> {{ $tag->name }} </option>
-
-					@endforeach
+						@endforeach
 
 			    </select>
+
+					{{ Form::label('featured_image', 'Upload Featured Image:', array('style' => 'margin-top:10px;')) }}
+					{{ Form::file('featured_image') }}
 
 			    {{ Form::label('body', 'Post Body:', array('style' => 'margin-top:20px;')) }}
 			    {{ Form::textarea('body', null, array('class' => 'form-control')) }}

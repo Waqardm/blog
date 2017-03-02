@@ -10,10 +10,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use App\Category;
 use Illuminate\Support\Facades\DB;
+use Purifier;
+use Image;
+use Storage;
 
 class PostController extends Controller
 {
-    public function __construct() 
+    public function __construct()
     {
         $this->middleware('auth');
     }
@@ -39,7 +42,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {
         //pulling categories for dropdown
         $categories = Category::all();
         $tags = Tag::all();
@@ -55,14 +58,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
         // validate the data
         $this->validate($request, array(
                 'title' => 'required|max:255',
                 'slug' => 'max:255',
                 'category_id' => 'required|integer',
-                'body' => 'required'
-
+                'tags' => 'required',
+                'body' => 'required',
+                'featured_image' => 'sometimes|image'
             ));
 
         // store in db
@@ -72,7 +75,18 @@ class PostController extends Controller
         $post->category_id = $request->category_id;
         $slug = $request->slug ? $request->slug : slugHelper::createSlug($request->title);
         $post->slug = SlugHelper::checkSlugExists($slug);
-        $post->body = $request->body;
+        $post->body = Purifier::clean($request->body);
+
+        //save our image
+        if ($request->hasFile('featured_image'))
+        {
+          $image = $request->file('featured_image');
+          $filename =  time() . '.' . $image->getClientOriginalExtension();
+          $location = public_path('images/' . $filename);
+          Image::make($image)->resize(800,400)->save($location);
+
+          $post->image = $filename;
+        }
 
         $post->save();
 
@@ -93,7 +107,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
+    {
         $post = Post::find($id);
         return view('posts.show')->withPost($post);
     }
@@ -146,7 +160,9 @@ class PostController extends Controller
                 'title' => 'required|max:255',
                 'slug' => 'max:255',
                 'category_id' => 'required|integer',
-                'body' => 'required'
+                'tags' => 'required',
+                'body' => 'required',
+                'featured_image' => 'sometimes|image',
             ));
 
         // Save the data to the db
@@ -157,17 +173,33 @@ class PostController extends Controller
 
         if (isset($request->tags))
         {
-            //now set to 'true' so it overwrites existing data (can also be left blank)
+        //now set to 'true' so it overwrites existing data (can also be left blank)
             $post->tags()->sync($request->tags, true);
         } else {
-
             $post->tags()->sync(array());
         }
 
-        $post->body = $request->input('body');
+        $post->body = Purifier::clean($request->input('body'));
+
+        if ($request->hasfile('featured_image'))
+        {
+          // add new photo
+          $image = $request->file('featured_image');
+          $filename =  time() . '.' . $image->getClientOriginalExtension();
+          $location = public_path('images/' . $filename);
+          Image::make($image)->resize(800,400)->save($location);
+          $oldFileName = $post->image;
+
+          // update db to reflect new photo
+          $post->image = $filename;
+
+          // delete old photo
+          Storage::delete('$oldFileName');
+        }
+
         $post->save();
 
-        // Set flash data with success message
+
         Session::flash('success', 'This post was successfully saved!');
 
         // Redirect with flash data to posts.show
@@ -184,7 +216,8 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $post->tags()->detach();
-        
+        Storage::delete($post->image);
+
         $post->delete();
 
         Session::flash('success', 'The post was successfully deleted.');
