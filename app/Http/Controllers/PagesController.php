@@ -6,19 +6,21 @@ use App\Post;
 use Illuminate\Http\Request;
 use Session;
 use Mail;
+use App\Category;
 
 class PagesController extends Controller {
 
 	public function getIndex() {
 		$posts = Post::orderBy('id', 'desc')->limit(4)->get();
-		return view('pages.welcome')->withPosts($posts);
+		$categories = Category::all();
+		
+		return view('pages.welcome')->withPosts($posts)->withCategories($categories);
 	}
 
 	public function getAbout()
 	{
 		$first = 'Waqar';
 		$last = 'Mohammad';
-
 		$fullname = $first . " " . $last;
 		$email = 'waqar@waqar.co';
 		$data = [];
@@ -51,7 +53,7 @@ class PagesController extends Controller {
 			 $message->to('waqar@waqar.co');
 			 $message->subject($data['subject']);
 			});
-		
+
 		return redirect('/')->with('success', 'Thanks! Your message has been sent');
 	}
 
@@ -66,6 +68,3 @@ class PagesController extends Controller {
 			#pass data to correct view
 
 ?>
-
-
-		

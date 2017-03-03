@@ -13,6 +13,12 @@ class CategoryController extends Controller
         $this->middleware('auth');
     }
 
+      public function getSingleCategory()
+      {
+        $categories = Category::all();
+        return view('categories.show')->withCategories($categories);
+      }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,20 +30,18 @@ class CategoryController extends Controller
         // form to create new category
         $categories = Category::all();
         return view('categories.index')->withCategories($categories);
-
-        
     }
 
     // *
     //  * Show the form for creating a new resource.
     //  *
     //  * @return \Illuminate\Http\Response
-     
+
     // public function create()
     // {
     //     //
     // }
-    
+
     /**
      * Store a newly created resource in storage.
      *
