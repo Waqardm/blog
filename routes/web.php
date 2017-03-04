@@ -18,7 +18,6 @@ Route::get('logout', [ 'uses' => 'Auth\LoginController@logout', 'as' => 'logout'
 
 // Categories
 Route::resource('categories', 'CategoryController', ['except' => ['create']]);
-Route::get('categories/{category}', ['uses' => 'CategoryController@getSingleCategory', 'as' => 'categories.show']);
 
 // Tags
 Route::resource('tags', 'TagController', ['except' => ['create']]);

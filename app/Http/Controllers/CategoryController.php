@@ -13,12 +13,6 @@ class CategoryController extends Controller
         $this->middleware('auth');
     }
 
-      public function getSingleCategory()
-      {
-        $categories = Category::all();
-        return view('categories.show')->withCategories($categories);
-      }
-
     /**
      * Display a listing of the resource.
      *
@@ -52,15 +46,17 @@ class CategoryController extends Controller
     {
         // Save new category and redirect to index
         $this->validate($request, array(
-            'name' => 'required|max:255'
+            'name' => 'required|max:255',
+            'slug' => 'max:255'
             ));
 
         $category = new Category;
         $category->name = $request->name;
+        $category->slug = str_slug($category->name, '-');
+
         $category->save();
 
         Session::flash('success', 'New Category has been created!');
-
         return redirect()->route('categories.index');
     }
 
@@ -70,10 +66,12 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
+     public function show($slug)
+     {
+
+       $category = Category::where('slug', '=', $slug)->first();
+       return view('categories.show')->withCategory($category);
+     }
 
     /**
      * Show the form for editing the specified resource.

@@ -13,7 +13,6 @@ class PagesController extends Controller {
 	public function getIndex() {
 		$posts = Post::orderBy('id', 'desc')->limit(4)->get();
 		$categories = Category::all();
-		
 		return view('pages.welcome')->withPosts($posts)->withCategories($categories);
 	}
 

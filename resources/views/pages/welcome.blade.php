@@ -29,7 +29,7 @@
             <div class="col-md-offset-1">
                 <h4>Categories</h4>
                 @foreach($categories as $category)
-                    <a href="{{ route('categories.show', str_slug($category->name, '-')) }}">{{ $category->name }}</a><br/>
+                    <a href="{{ route('categories.show', $category) }}">{{ $category->name }}</a><br/>
                 @endforeach
             </div>
           </div>
