@@ -24,14 +24,11 @@
           </div>
 
           <div class="col-md-3 col-md-offset-1">
-            <h2>Sidebar</h2>
+            <h2>Categories</h2>
             <hr>
-            <div class="col-md-offset-1">
-                <h4>Categories</h4>
                 @foreach($categories as $category)
-                    <a href="{{ route('categories.show', $category) }}">{{ $category->name }}</a><br/>
+                    <h5><a href="{{ route('categories.show', $category->slug) }}">{{ $category->name }}</a></h5>
                 @endforeach
-            </div>
           </div>
 
         </div>

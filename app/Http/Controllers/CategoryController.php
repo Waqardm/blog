@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
+use App\Post;
 use Session;
 
 class CategoryController extends Controller
@@ -50,14 +51,22 @@ class CategoryController extends Controller
             'slug' => 'max:255'
             ));
 
-        $category = new Category;
-        $category->name = $request->name;
-        $category->slug = str_slug($category->name, '-');
+        $exist = Category::where('name', '=', $request->name)->first();
 
-        $category->save();
+        if(!$exist)
+        {
+          $category = new Category;
+          $category->name = $request->name;
+          $category->slug = str_slug($category->name, '-');
+          $category->save();
 
-        Session::flash('success', 'New Category has been created!');
-        return redirect()->route('categories.index');
+          Session::flash('success', 'New Category has been created!');
+          return redirect()->route('categories.index');
+
+        } else {
+          Session::flash('danger', 'Category already exists! Please try another.');
+          return redirect()->route('categories.index');
+        }
     }
 
     /**
@@ -68,9 +77,9 @@ class CategoryController extends Controller
      */
      public function show($slug)
      {
-
+       $posts = Post::all();
        $category = Category::where('slug', '=', $slug)->first();
-       return view('categories.show')->withCategory($category);
+       return view('categories.show')->withCategory($category)->withPosts($posts)->withPaginate($paginate);
      }
 
     /**
