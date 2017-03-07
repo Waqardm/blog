@@ -70,11 +70,11 @@ class PostController extends Controller
 
         // store in db
         $post = new Post;
-
+        $model = $post;
         $post->title = $request->title;
         $post->category_id = $request->category_id;
         $slug = $request->slug ? $request->slug : slugHelper::createSlug($request->title);
-        $post->slug = SlugHelper::checkSlugExists($slug);
+        $post->slug = SlugHelper::checkSlugExists($model, $slug);
         $post->body = Purifier::clean($request->body);
 
         //save our image

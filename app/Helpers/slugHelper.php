@@ -11,9 +11,9 @@ class slugHelper{
 		return(str_slug($input,'-'));
 	}
 
-	public static function checkSlugExists($slug){
+	public static function checkSlugExists($model, $slug){
 		//check it if exists
-		$exist = Post::where('slug', $slug)->first();
+		$exist = $model::where('slug', $slug)->first();
 		// Assign slug if doesn't exist
 		if(!$exist) {
 			return $slug;

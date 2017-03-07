@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Category;
 use App\Post;
 use Session;
+use App\Helpers\slugHelper;
 
 class CategoryController extends Controller
 {
@@ -56,8 +57,11 @@ class CategoryController extends Controller
         if(!$exist)
         {
           $category = new Category;
+          $model = $category;
+          
           $category->name = $request->name;
-          $category->slug = str_slug($category->name, '-');
+          $slug = $category->name ? $category->name : slugHelper::createSlug($request->name);
+          $category->slug = SlugHelper::checkSlugExists($model, $slug);
           $category->save();
 
           Session::flash('success', 'New Category has been created!');
@@ -79,7 +83,7 @@ class CategoryController extends Controller
      {
        $posts = Post::all();
        $category = Category::where('slug', '=', $slug)->first();
-       return view('categories.show')->withCategory($category)->withPosts($posts)->withPaginate($paginate);
+       return view('categories.show')->withCategory($category)->withPosts($posts);
      }
 
     /**

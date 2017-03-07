@@ -3,7 +3,6 @@
 <!--need to fix-->
 @section('title', "$tag->name Tag")
 
-
 @section('content')
 
 	<div>
@@ -61,4 +60,3 @@
 
 
 @endsection
-

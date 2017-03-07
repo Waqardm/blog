@@ -52,6 +52,12 @@
 	color: #aaa;
 }
 
+.publish-time{
+	font-size: 14px;
+	font-style: italic;
+	color: #aaa;
+}
+
 .comments-title{
 	margin-bottom: 45px;
 }
