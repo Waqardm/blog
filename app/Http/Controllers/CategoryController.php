@@ -12,7 +12,7 @@ class CategoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['show']]);
     }
 
     /**
@@ -58,9 +58,9 @@ class CategoryController extends Controller
         {
           $category = new Category;
           $model = $category;
-          
+
           $category->name = $request->name;
-          $slug = $category->name ? $category->name : slugHelper::createSlug($request->name);
+          $slug = str_slug($category->name, '-');
           $category->slug = SlugHelper::checkSlugExists($model, $slug);
           $category->save();
 
@@ -81,8 +81,9 @@ class CategoryController extends Controller
      */
      public function show($slug)
      {
-       $posts = Post::all();
+      // $posts = Post::all();
        $category = Category::where('slug', '=', $slug)->first();
+       $posts = Post::where('category_id', $category->id)->paginate(5);
        return view('categories.show')->withCategory($category)->withPosts($posts);
      }
 

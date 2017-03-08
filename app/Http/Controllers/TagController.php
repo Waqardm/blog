@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Tag;
 use Session;
+use App\Helpers\slugHelper;
+use App\Post;
 
 class TagController extends Controller
 {
@@ -36,17 +38,28 @@ class TagController extends Controller
             'name' => 'required|max:255'
             ));
 
-        // create empty instance of Tag
-        $tag = new Tag;
+        $exists = Tag::where('name', '=', $request->name)->first();
 
-        // add 'name' to request
+        if (!$exists)
+        {
+
+        $tag = new Tag;
+        $model = $tag;
         $tag->name = $request->name;
+        $slug = str_slug($tag->name, '-');
+        $tag->slug = SlugHelper::checkSlugExists($tag, $slug);
         $tag->save();
 
-        // success
-        Session::flash('success', 'New Tag was successfully created!');
-
+        Session::flash('success', 'New Tag has been created!');
         return redirect()->route('tags.index');
+
+        } else {
+
+          Session::flash('danger', 'Category already exists! Please try another.');
+          return redirect()->route('tags.index');
+
+      }
+
     }
 
     /**
@@ -55,9 +68,9 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $tag = Tag::find($id);
+        $tag = Tag::where('slug', '=', $slug)->first();
         return view('tags.show')->withTag($tag);
     }
 
@@ -67,9 +80,9 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-       $tag = Tag::find($id);
+       $tag = Tag::where('slug', '=', $slug)->first();
        return view('tags.edit')->withTag($tag);
     }
 

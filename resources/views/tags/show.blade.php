@@ -12,7 +12,7 @@
 			</div>
 
 			<div class="col-md-2">
-				<a href="{{ route('tags.edit', $tag->id) }}" class="btn btn-primary pull-right edit-button btn-block">Edit</a>
+				<a href="{{ route('tags.edit', $tag->slug) }}" class="btn btn-primary pull-right edit-button btn-block">Edit</a>
 			</div>
 
 			<div class="col-md-2">

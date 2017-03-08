@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSlugColToCategories extends Migration
+class AddSlugColToTags extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddSlugColToCategories extends Migration
      */
     public function up()
     {
-      Schema::table('categories', function (Blueprint $table) {
+      Schema::table('tags', function (Blueprint $table) {
           $table->string('slug')->nullable()->after('name');
       });
     }
@@ -25,8 +25,8 @@ class AddSlugColToCategories extends Migration
      */
     public function down()
     {
-      Schema::table('categories', function (Blueprint $table) {
-          $table->dropColumn('image');
+      Schema::table('tags', function (Blueprint $table) {
+          $table->dropColumn('slug');
       });
     }
 }

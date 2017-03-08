@@ -22,7 +22,7 @@ Route::get('categories/{slug}', 'CategoryController@show', ['except' => ['create
 
 // Tags
 Route::resource('tags', 'TagController', ['except' => ['create']]);
-Route::get('tags/{name}', 'TagController@show', ['except' => ['create']]);
+Route::get('tags/{slug}', 'TagController@show', ['except' => ['create']]);
 
 //Contact Form
 Route::post('contact', 'PagesController@postContact');
