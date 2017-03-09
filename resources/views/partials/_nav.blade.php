@@ -24,9 +24,10 @@
 
         @if (Auth::check())
             <ul class="nav navbar-nav">
-            <li><a href=" {{ route('posts.index') }} ">Posts</a></li>
-            <li><a href=" {{ route('categories.index') }} ">Categories</a></li>
-            <li><a href=" {{ route('tags.index') }} ">Tags</a></li>
+              <li><a href=" {{ route('dynamicPages.index') }} ">Pages</a></li>
+              <li><a href=" {{ route('posts.index') }} ">Posts</a></li>
+              <li><a href=" {{ route('categories.index') }} ">Categories</a></li>
+              <li><a href=" {{ route('tags.index') }} ">Tags</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

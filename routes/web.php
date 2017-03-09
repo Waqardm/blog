@@ -27,6 +27,7 @@ Route::get('tags/{slug}', 'TagController@show', ['except' => ['create']]);
 //Contact Form
 Route::post('contact', 'PagesController@postContact');
 
+
 //Comments
 Route::post('comments/{post_id}', ['uses' => 'CommentsController@store', 'as' => 'comments.store']);
 Route::get('comments/{id}/edit',['uses' => 'CommentsController@edit', 'as' => 'comments.edit']);
@@ -43,3 +44,7 @@ Route::get('/', 'PagesController@getIndex');
 Route::resource('posts', 'PostController');
 
 Route::get('/home', 'HomeController@index');
+
+//Dynamic Pages
+Route::resource('dynamicPages', 'DynamicPageController');
+//Route::get('{slug}', 'DynamicPageController@index');
