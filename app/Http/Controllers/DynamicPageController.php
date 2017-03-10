@@ -10,11 +10,6 @@ use Session;
 
 class DynamicPageController extends Controller
 {
-    public function __construct()
-    {
-      $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -34,7 +29,7 @@ class DynamicPageController extends Controller
     public function create()
     {
       $pages = DynamicPage::all();
-      return view('dynamicPages.create')->withPage($pages);
+      return view('dynamicPages.create')->withPages($pages);
     }
 
     /**
@@ -57,7 +52,7 @@ class DynamicPageController extends Controller
       $model = $pages;
       $pages->title = $request->title;
       $slug = $request->slug ? $request->slug : slugHelper::createSlug($request->title);
-      $pages->slug = SlugHelper::checkSlugExists($model, $slug);
+      $pages->slug = slugHelper::checkSlugExists($model, $slug);
       $pages->body = Purifier::clean($request->body);
 
       $pages->save();
@@ -86,9 +81,10 @@ class DynamicPageController extends Controller
      * @param  \App\DynamicPage  $dynamicPage
      * @return \Illuminate\Http\Response
      */
-    public function edit(DynamicPage $dynamicPage)
+    public function edit($slug)
     {
-        //
+        $pages = DynamicPage::where('slug', '=', $slug)->first();
+        return view('dynamicPages.edit')->withPages($pages);
     }
 
     /**
@@ -98,9 +94,25 @@ class DynamicPageController extends Controller
      * @param  \App\DynamicPage  $dynamicPage
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DynamicPage $dynamicPage)
+    public function update(Request $request, $slug)
     {
-        //
+        $this->validate($request, array(
+          'title' => 'required',
+          'body' => 'required',
+        ));
+
+
+        $pages =  DynamicPage::where('slug', '=', $slug)->first();
+
+        $pages->title = $request->title;
+        $pages->slug = str_slug($request->slug, '-');
+        $pages->body = $request->body;
+
+        $pages->save();
+
+        Session::flash('success', 'Your Page has been updated');
+        return redirect()->route('dynamicPages.show', $pages->slug);
+
     }
 
     /**
@@ -109,8 +121,12 @@ class DynamicPageController extends Controller
      * @param  \App\DynamicPage  $dynamicPage
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DynamicPage $dynamicPage)
+    public function destroy($id)
     {
-        //
+        $pages = DynamicPage::find($id);
+        $pages->delete();
+
+        Session::flash('success', 'Your Page has been deleted.');
+        return redirect()->route('dynamicPages.index');
     }
 }

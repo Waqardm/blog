@@ -4,24 +4,27 @@
 
 @section('content')
 	<div class="row">
-  		<div class="col-md-8">
+  		<div class="col-md-8 panel panel-default">
   			<h1>{{ $pages->title }}</h1>
-  			<img src="{{ asset('images/' . $pages->image) }}" alt="" />
-  			<p class="lead">{!! $pages->body !!}</p>
+
+					<div class="card">
+						<p class="lead">{!! $pages->body !!}</p>
+					</div>
+
   			<hr>
   		</div>
 
 		<div class="col-md-4">
 			<div class="well">
-				<dl class="dl-horizontal form-group">
+				<dl class="dl-horizontal form-group" >
 					<label>Url:</label>
-					<p><a href="{{ route('blog.single', $pages->slug) }}">{{ route('blog.single', $pages->slug)}}</a></p>
+					<p><a href="{{ route('dynamicPages.show', $pages->slug) }}">{{ route('dynamicPages.show', $pages->slug) }}</a></p>
 				</dl>
 
-				<dl class="dl-horizontal form-group">
+				{{-- <dl class="dl-horizontal form-group">
 					<label>Category:</label>
 					<p> {{ $pages->category->name }} </p>
-				</dl>
+				</dl> --}}
 
 				<dl class="dl-horizontal">
 					<label>Created At:</label>
@@ -33,21 +36,23 @@
 					<p>{{ date('M j, Y h:i a', strtotime($pages->updated_at)) }}</p>
 				</dl>
 				<hr>
+				@if (Auth::check())
 				<div class="row">
 					<div class="col-sm-6">
-						{!! Html::linkRoute('posts.edit', 'Edit', array($pages->id), ['class' => 'btn btn-primary btn-block']) !!}
+						{!! Html::linkRoute('dynamicPages.edit', 'Edit', array($pages->slug), ['class' => 'btn btn-primary btn-block']) !!}
 					</div>
 					<div class="col-sm-6">
-						{!!	Form::open(['route' => ['posts.destroy', $pages->id], 'method' => 'DELETE']) !!}
+						{!!	Form::open(['route' => ['dynamicPages.destroy', $pages->id], 'method' => 'DELETE']) !!}
 
 						{!! Form::submit('Delete', ['class' => 'btn btn-danger btn-block']) !!}
 
 						{!! Form::close() !!}
 					</div>
 				</div>
+			@endif
 
 				<div class="row">
-					{{ Html::linkRoute('posts.index', '<< See All Posts', [], ['class' => 'btn btn-default btn-block btn-h1-spacing']) }}
+					{{ Html::linkRoute('dynamicPages.index', '<< See All Pages', [], ['class' => 'btn btn-default btn-block btn-h1-spacing']) }}
 				</div>
 
 			</div>

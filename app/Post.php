@@ -7,8 +7,8 @@ use Illuminate\Support\Str;
 
 class Post extends Model
 {
-    public function setTitle($value)
-    {
+  public function setTitle($value)
+  {
     	$this->attributes['title'] = $value;
     	$this->attributes['slug'] = str_slug($value);
 	}

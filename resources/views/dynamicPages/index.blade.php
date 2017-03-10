@@ -2,7 +2,6 @@
 
 @section('title, Pages List')
 
-
 @section('content')
 
   <div class="row">
@@ -39,8 +38,8 @@
               <td>{{ substr(strip_tags($page->body), 0, 50) }} {{ strlen(strip_tags($page->body)) > 50 ? "..." : "" }} </td>
               <td>{{ date('M j, Y', strtotime($page->created_at)) }}</td>
               <td>
-                <a href="{{ route('dynamicPages.show', $page->id) }}" class="btn btn-default btn-sm">View</a>
-                <a href="{{ route('dynamicPages.edit', $page->id) }}" class="btn btn-default btn-sm">Edit</a>
+                <a href="{{ route('dynamicPages.show', $page->slug) }}" class="btn btn-default btn-sm">View</a>
+                <a href="{{ route('dynamicPages.edit', $page->slug) }}" class="btn btn-default btn-sm">Edit</a>
               </td>
             </tr>
 
@@ -48,9 +47,9 @@
 
         </tbody>
       </table>
-      {{-- <div class="text-center">
+      <div class="text-center">
         {!! $pages->links(); !!}
-      </div> --}}
+      </div>
     </div>
   </div>
 

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Helpers;
-use App\Post;
 
 /**
 * Slugs Class
@@ -13,7 +12,7 @@ class slugHelper{
 
 	public static function checkSlugExists($model, $slug){
 		//check it if exists
-		$exist = $model::where('slug', $slug)->first();
+		$exist = $model::where('slug', '=', $slug)->first();
 		// Assign slug if doesn't exist
 		if(!$exist) {
 			return $slug;
@@ -24,7 +23,7 @@ class slugHelper{
 			//check slug variable
 			$checkSlug = $slug . "-" . $counter;
 			//check slug exists
-			$exist = Post::where('slug', $checkSlug)->first();
+			$exist = $model::where('slug', $checkSlug)->first();
 			//if exists
 			if (!$exist) {
 				$found = false;

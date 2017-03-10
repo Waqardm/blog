@@ -141,7 +141,6 @@ class PostController extends Controller
             $tags2[$tag->id] = $tag->name;
         }
 
-
         //return view and pass in the var we previously created
         return view('posts.edit')->withPost($post)->withCategories($cats)->withTags($tags2);
     }
@@ -168,7 +167,8 @@ class PostController extends Controller
         // Save the data to the db
         $post = Post::find($id);
 
-        $post->title = $request->slug;
+        $post->title = $request->title;
+        $post->slug = str_slug($request->slug, '-');
         $post->category_id = $request->category_id;
 
         if (isset($request->tags))
