@@ -47,9 +47,9 @@
 
         </tbody>
       </table>
-      <div class="text-center">
+      {{-- <div class="text-center">
         {!! $pages->links(); !!}
-      </div>
+      </div> --}}
     </div>
   </div>
 

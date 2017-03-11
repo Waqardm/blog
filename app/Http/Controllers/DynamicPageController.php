@@ -9,12 +9,18 @@ use Purifier;
 use Session;
 
 class DynamicPageController extends Controller
-{
+{   
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public function displayPages()
+    {
+      return $pages = DynamicPage::where('slug', '=', $slug)->first();
+    }
+
     public function index()
     {
         $pages = DynamicPage::all();

@@ -19,12 +19,24 @@
         <li class="{{ Request::is('blog') ? "active" : ""}} "><a href="/blog">Blog</a></li>
         <li class="{{ Request::is('about') ? "active" : ""}} "><a href="/about">About</a></li>
         <li class="{{ Request::is('contact') ? "active" : ""}} "><a href="/contact">Contact</a></li>
+
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                    @foreach ($menus as $menus)
+                      <li><a href=" {{ $menus->slug}} ">{{ $menus->title }}</a></li>
+                       <li role="separator" class="divider"></li>
+                    @endforeach
+              </ul>
+          </li>
+       </ul>
       </ul>
 
 
         @if (Auth::check())
             <ul class="nav navbar-nav">
-              <li><a href=" {{ route('dynamicPages.index') }} ">Pages</a></li>
+              <li><a href=" {{ route('dynamicPages.index') }} "> Manage Pages</a></li>
               <li><a href=" {{ route('posts.index') }} ">Posts</a></li>
               <li><a href=" {{ route('categories.index') }} ">Categories</a></li>
               <li><a href=" {{ route('tags.index') }} ">Tags</a></li>
@@ -36,7 +48,9 @@
                   <ul class="dropdown-menu">
                     <!--<li role="separator" class="divider"></li>-->
                     <li><a href=" {{ route('logout') }}">Logout</a></li>
+                  </ul>
               </li>
+           </ul>
 
 
           @else
