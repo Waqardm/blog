@@ -5,8 +5,12 @@
 @section('content')
 	<div class="row">
 		<div class="col-md-8">
+			@if ($post->image == true)
+				<h3>This Post has an Image</h3>
+			@endif
+		</div>
+		<div class="col-md-8">
 			<h1>{{ $post->title }}</h1>
-			<img src="{{ asset('images/' . $post->image) }}" alt="" />
 			<p class="lead">{!! $post->body !!}</p>
 			<hr>
 			<div>

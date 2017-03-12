@@ -30,5 +30,6 @@ $factory->define(App\Post::class, function (Faker\Generator $faker) {
         'title' => $faker->sentence,
         'slug' => $faker->sentence,
         'body' => $faker->paragraph,
+        'category_id' => $faker->number,
     ];
 });

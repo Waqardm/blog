@@ -47,4 +47,4 @@ Route::get('/home', 'HomeController@index');
 
 //Dynamic Pages
 Route::resource('dynamicPages', 'DynamicPageController');
-//Route::get('{slug}', 'DynamicPageController@index');
+Route::get('{slug}', 'DynamicPageController@index');

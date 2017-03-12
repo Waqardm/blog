@@ -2,11 +2,23 @@
 
 @section('title', "$post->title")
 
+@section('stylesheets')
+
+@endsection
+
 @section('content')
 
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<img src="{{ asset('images/' . $post->image ) }}" alt="" height="400" width="800"/>
+		
+			@if ($post->image == true)
+			{ 
+				<div class="col-md-6 col-md-offset-1">
+					<img src="{{ asset('images/' . $post->image ) }}" alt="" height="400" width="900" />
+				</div>
+			} 
+			@endif
+
+		<div class="col-md-8 col-md-offset-2 form-spacing-top">
 			<h1>{{ $post->title }}</h1>
 			<p> {!! $post->body !!} </p>
 			<hr>
