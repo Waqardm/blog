@@ -4,7 +4,13 @@
 
 @section('content')
 	<div class="row">
-  		<div class="col-md-8 panel panel-default">
+
+		@if(!Auth::check())
+  			<div class="col-md-10 col-md-offset-1 panel panel-default">
+  		@else
+  			<div class="col-md-8 panel panel-default">
+  		@endif
+  		
   			<h1>{{ $pages->title }}</h1>
 
 					<div class="card">
@@ -13,7 +19,7 @@
 
   			<hr>
   		</div>
-
+		@if (Auth::check())
 		<div class="col-md-4">
 			<div class="well">
 				<dl class="dl-horizontal form-group" >
@@ -36,7 +42,6 @@
 					<p>{{ date('M j, Y h:i a', strtotime($pages->updated_at)) }}</p>
 				</dl>
 				<hr>
-				@if (Auth::check())
 				<div class="row">
 					<div class="col-sm-6">
 						{!! Html::linkRoute('dynamicPages.edit', 'Edit', array($pages->slug), ['class' => 'btn btn-primary btn-block']) !!}
@@ -49,12 +54,12 @@
 						{!! Form::close() !!}
 					</div>
 				</div>
-			@endif
+			
 
 				<div class="row">
 					{{ Html::linkRoute('dynamicPages.index', '<< See All Pages', [], ['class' => 'btn btn-default btn-block btn-h1-spacing']) }}
 				</div>
-
+				@endif
 			</div>
 		</div>
 	</div>
